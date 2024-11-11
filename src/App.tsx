@@ -14,22 +14,29 @@ import Layout from "./Layout";
 import FeedsPage from "./pages/FeedsPage";
 import { useAppContext } from "./context/AppContext";
 import Loader from "./components/Loader/Loader";
+import MyPostsPage from "./pages/MyPostsPage/MyPostsPage";
+import SavedPostsPage from "./pages/SavedPostsPage/SavedPostsPage";
 
 function App() {
   const { isUserDataloading, user, userData, isAuthenticated } =
     useAppContext();
-  console.log("====================================");
-  console.log({ user, userData, isAuthenticated });
-  console.log("====================================");
+
   if (isUserDataloading) {
     return <Loader loading={isUserDataloading} color="#4F46E5" />;
   }
-
+  console.log("isAuthenticated", isAuthenticated);
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
         <Route path="/" element={<Layout />}>
-          <Route index element={<FeedsPage />} />
+          <Route path="" element={<FeedsPage />} />
+
+          <Route path="my-posts" element={isAuthenticated && <MyPostsPage />} />
+
+          <Route
+            path="saved-posts"
+            element={isAuthenticated && <SavedPostsPage />}
+          />
         </Route>
         <Route
           path="/login"
