@@ -87,17 +87,18 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     getComments();
   }, [postId, ADD_COMMENT, HANDLE_ERROR]);
 
-  const finalComments = state?.comments?.length > 0 ? state?.comments: comments 
+  const finalComments =
+    state?.comments?.length > 0 ? state?.comments : comments;
   return (
     <div className="mt-2">
       <div className="space-y-2">
-        {finalComments.map((comment, index) => (
+        {finalComments?.map((comment, index) => (
           <div key={index}>
             <div className="flex items-center">
-              <span className="font-semibold">{comment.user}</span>:{" "}
-              {comment.text}
+              <span className="font-semibold">{comment?.name}</span>:{" "}
+              {comment?.comment}
             </div>
-            {comment.replies && (
+            {comment?.replies && (
               <div className="ml-4">
                 {comment.replies.map((reply: any, replyIndex: any) => (
                   <div key={replyIndex}>

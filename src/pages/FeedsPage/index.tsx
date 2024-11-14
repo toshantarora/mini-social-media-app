@@ -108,14 +108,13 @@ const FeedsPage = () => {
   });
   const scrollRef = useRef<HTMLDivElement>(null);
   const [progressBar, setProgressBar] = useState(0);
- 
+
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormState({
       ...formState,
       comment: e.target.value,
     });
   };
-
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -138,7 +137,7 @@ const FeedsPage = () => {
     if (formState?.comment && formState.selectedFile) {
       try {
         await setDoc(postRef, {
-          documentId: document,
+          documentId: documentId,
           uid: user?.uid || userData?.uid,
           logo: user?.photoURL,
           name: user?.displayName || userData?.name,
@@ -191,6 +190,7 @@ const FeedsPage = () => {
           formState?.selectedFile,
           metadata.contentType
         );
+        console.log("uploadTask", uploadTask);
         await uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -205,6 +205,7 @@ const FeedsPage = () => {
           async () => {
             await getDownloadURL(uploadTask.snapshot.ref).then(
               (downloadURL) => {
+                console.log("downloadURL", downloadURL);
                 setFormState({ ...formState, image: downloadURL });
               }
             );
@@ -262,8 +263,8 @@ const FeedsPage = () => {
     return postData();
   }, [SUBMIT_POST]);
 
-
   const data = state?.posts?.length > 0 ? state?.posts : postsData;
+  console.log("data", data);
   return (
     <div
     //className="flex justify-between  mx-auto max-w-7xl flex-col bg-black items-center"
